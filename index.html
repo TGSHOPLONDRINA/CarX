@@ -6,56 +6,26 @@
 <title>carX — Venda de Veículos</title>
 <style>
     body { font-family: Arial, sans-serif; background: #0d0d0d; color: #fff; margin: 0; }
-    header { padding: 20px; text-align: center; background: #111; font-size: 32px; font-
-
-weight: bold; color: #00c3ff; border-bottom: 2px solid #00c3ff; }
-    .slider { width: 90%; max-width: 900px; height: 220px; margin: 20px auto; overflow: 
-
-hidden; border-radius: 12px; border: 2px solid #00c3ff; position: relative; }
+    header { padding: 20px; text-align: center; background: #111; font-size: 32px; font-weight: bold; color: #00c3ff; border-bottom: 2px solid #00c3ff; }
+    .slider { width: 90%; max-width: 900px; height: 220px; margin: 20px auto; overflow: hidden; border-radius: 12px; border: 2px solid #00c3ff; position: relative; }
     .slides { display: flex; width: 300%; animation: slide 12s infinite; }
     .slides img { width: 100%; height: 220px; object-fit: cover; }
-    @keyframes slide { 0% { margin-left: 0; } 33% { margin-left: -100%; } 66% { margin-
-
-left: -200%; } 100% { margin-left: 0; } }
+    @keyframes slide { 0% { margin-left: 0; } 33% { margin-left: -100%; } 66% { margin-left: -200%; } 100% { margin-left: 0; } }
     .container { max-width: 900px; margin: auto; padding: 20px; }
-    .card { background: #1a1a1a; padding: 20px; border-radius: 10px; margin-bottom: 20px; 
-
-border: 1px solid #333; }
+    .card { background: #1a1a1a; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #333; }
     h2 { color: #00c3ff; margin-bottom: 10px; }
-    input, select { width: 100%; padding: 10px; margin-top: 10px; border-radius: 8px; 
-
-border: none; background: #222; color: #fff; }
-    button { padding: 12px; width: 100%; background: #00c3ff; border: none; border-radius: 
-
-8px; margin-top: 15px; font-size: 16px; cursor: pointer; font-weight: bold; }
+    input, select { width: 100%; padding: 10px; margin-top: 10px; border-radius: 8px; border: none; background: #222; color: #fff; }
+    button { padding: 12px; width: 100%; background: #00c3ff; border: none; border-radius: 8px; margin-top: 15px; font-size: 16px; cursor: pointer; font-weight: bold; }
     button:hover { background: #0099cc; }
-    .result { background: #101010; padding: 15px; border-radius: 10px; margin-top: 20px; 
-
-border: 1px solid #00c3ff; white-space: pre-line; font-size: 16px; }
-    #chat-bubble { position: fixed; bottom: 20px; right: 20px; background: #4CAF50; color: 
-
-#fff; padding: 14px 16px; border-radius: 50%; cursor: pointer; font-size: 22px; z-index: 
-
-99999; box-shadow: 0 0 10px #0005; }
-    #chat-box { position: fixed; bottom: 90px; right: 20px; width: 90%; max-width: 320px; 
-
-height: 420px; background: #1a1a1a; color: #fff; border-radius: 14px; box-shadow: 0 0 12px 
-
-#0007; display: none; flex-direction: column; z-index: 99999; }
-    @media (max-width: 480px) { #chat-box { bottom: 80px; right: 10px; width: calc(100% - 
-
-20px); height: 75vh; } }
-    #chat-header { background: #4CAF50; padding: 12px; text-align: center; font-weight: 
-
-bold; border-radius: 14px 14px 0 0; }
+    .result { background: #101010; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid #00c3ff; white-space: pre-line; font-size: 16px; }
+    #chat-bubble { position: fixed; bottom: 20px; right: 20px; background: #4CAF50; color: #fff; padding: 14px 16px; border-radius: 50%; cursor: pointer; font-size: 22px; z-index: 99999; box-shadow: 0 0 10px #0005; }
+    #chat-box { position: fixed; bottom: 90px; right: 20px; width: 90%; max-width: 320px; height: 420px; background: #1a1a1a; color: #fff; border-radius: 14px; box-shadow: 0 0 12px #0007; display: none; flex-direction: column; z-index: 99999; }
+    @media (max-width: 480px) { #chat-box { bottom: 80px; right: 10px; width: calc(100% - 20px); height: 75vh; } }
+    #chat-header { background: #4CAF50; padding: 12px; text-align: center; font-weight: bold; border-radius: 14px 14px 0 0; }
     #chat-messages { flex: 1; padding: 10px; overflow-y: auto; font-size: 14px; }
     #chat-input { display: flex; border-top: 1px solid #333; }
-    #chat-input input { flex: 1; padding: 10px; border: none; outline: none; background: 
-
-#0d0d0d; color: #fff; font-size: 15px; }
-    #chat-input button { padding: 10px; background: #4CAF50; border: none; cursor: 
-
-pointer; color: #fff; font-weight: bold; width: 60px; }
+    #chat-input input { flex: 1; padding: 10px; border: none; outline: none; background: #0d0d0d; color: #fff; font-size: 15px; }
+    #chat-input button { padding: 10px; background: #4CAF50; border: none; cursor: pointer; color: #fff; font-weight: bold; width: 60px; }
 </style>
 </head>
 <body>
@@ -114,9 +84,7 @@ pointer; color: #fff; font-weight: bold; width: 60px; }
 
 <a href="https://wa.me/+556296094975" target="_blank">💬 Suporte</a>
 <p>Siga nossas redes:</p>
-<a href="https://www.instagram.com/trabalhando.no.digital?igsh=M3pkb3lrY3VnYTky" 
-
-target="_blank">📸 Instagram</a>
+<a href="https://www.instagram.com/trabalhando.no.digital?igsh=M3pkb3lrY3VnYTky" target="_blank">📸 Instagram</a>
 <a href="https://tiktok.com/@SEUTIKTOK" target="_blank">🎵 TikTok</a>
 
 </div>
@@ -144,26 +112,15 @@ function mostrarPopup(msg) {
 </script>
 
 <script>
+// ===== OBJETOS MATERIAIS E PREÇOS =====
 const materiais = {
     jeepdeguerra: { lingoteFerro: 100, corpoChassi: 50, engrenagem: 20, chapaFerro: 0 },
-    pequenalambretafesta: { lingoteFerro: 150, corpoChassi: 70, engrenagem: 30, 
-
-chapaFerro: 0 },
-    pequenalambretacanto: { lingoteFerro: 300, corpoChassi: 200, engrenagem: 80, 
-
-chapaFerro: 0 },
-    helicopterodeataque: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 
-
-40 },
-    motoolanadorazul: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 40 
-
-},
+    pequenalambretafesta: { lingoteFerro: 150, corpoChassi: 70, engrenagem: 30, chapaFerro: 0 },
+    pequenalambretacanto: { lingoteFerro: 300, corpoChassi: 200, engrenagem: 80, chapaFerro: 0 },
+    helicopterodeataque: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 40 },
+    motoolanadorazul: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 40 },
     motoolanador: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 40 },
-   
-    tanquetigrebranco: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 40 
-
-},
-
+    tanquetigrebranco: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 40 } // <== corrigido
 };
 
 const precoVenda = {
@@ -179,17 +136,14 @@ const precoVenda = {
 const BOT_PHONE = "556296094975";
 const BOT_KEY = "2198964";
 
+// ===== FUNÇÕES =====
 function gerarIDProduto() { 
     return "PROD-" + Math.floor(100000 + Math.random() * 900000); 
 }
 
-// VERIFICA MATERIAIS
 function verificarMateriais() {
     const v = document.getElementById("vehicle").value;
-    if (!v) {
-        mostrarPopup("❌ Selecione um veículo!");
-        return;
-    }
+    if (!v) { mostrarPopup("❌ Selecione um veículo!"); return; }
 
     const req = materiais[v];
     const user = {
@@ -200,9 +154,7 @@ function verificarMateriais() {
     };
 
     let faltas = [];
-    for (let m in req) {
-        if (user[m] < req[m]) faltas.push(`${m}: ${req[m] - user[m]} faltando`);
-    }
+    for (let m in req) { if (user[m] < req[m]) faltas.push(`${m}: ${req[m]-user[m]} faltando`); }
 
     const box = document.getElementById("resultadoVenda");
     box.style.display = "block";
@@ -221,15 +173,12 @@ Chassi: ${user.corpoChassi}
 Engrenagem: ${user.engrenagem}
 Chapa: ${user.chapaFerro}
 
-` + (faltas.length === 0 ? "✅ Você tem todos os materiais!" : "❌ Faltando:\n" + 
-
-faltas.join("\n"));
+` + (faltas.length === 0 ? "✅ Você tem todos os materiais!" : "❌ Faltando:\n" + faltas.join("\n"));
 
     if (faltas.length === 0) mostrarPopup("✅ Todos os materiais conferidos!");
     else mostrarPopup("❌ Faltam materiais!");
 }
 
-// ENVIO WHATSAPP
 function enviarZapVenda() {
     const nome = document.getElementById("nome").value.trim();
     const tel = document.getElementById("telefone").value.trim();
@@ -237,14 +186,10 @@ function enviarZapVenda() {
     const serv = document.getElementById("serverName").value.trim();
     const v = document.getElementById("vehicle").value;
 
-    if (!nome || !tel || !pid || !serv || !v) {
-        mostrarPopup("❌ Preencha todos os campos!");
-        return;
-    }
+    if (!nome || !tel || !pid || !serv || !v) { mostrarPopup("❌ Preencha todos os campos!"); return; }
 
     const m = materiais[v];
     const idProduto = gerarIDProduto();
-
     const msg = `
 NOVA VENDA — carX
 
@@ -266,7 +211,6 @@ NOVA VENDA — carX
 
 🕒 ${new Date().toLocaleString()}
 `;
-
     enviarBot(msg);
 }
 
@@ -275,12 +219,8 @@ function enviarZapGeral() {
     const tel = document.getElementById("telefone").value.trim();
     const pid = document.getElementById("playerID").value.trim();
     const serv = document.getElementById("serverName").value.trim();
-    const v = document.getElementById("vehicle").value;
 
-    if (!nome || !tel || !pid || !serv) {
-        mostrarPopup("❌ Preencha todos os campos!");
-        return;
-    }
+    if (!nome || !tel || !pid || !serv) { mostrarPopup("❌ Preencha todos os campos!"); return; }
 
     let msg = `
 PEDIDO COMPLETO — carX
@@ -293,15 +233,14 @@ PEDIDO COMPLETO — carX
 🌍 Servidor: ${serv}
 `;
 
+    const v = document.getElementById("vehicle").value;
     if (v) {
         const m = materiais[v];
         msg += `
 --- VENDA ---
 Veículo: ${v.toUpperCase()}
 Preço: R$ ${precoVenda[v].toLocaleString()}
-Materiais: ${m.lingoteFerro} lingotes, ${m.corpoChassi} chassi, ${m.engrenagem} 
-
-engrenagem, ${m.chapaFerro} chapas
+Materiais: ${m.lingoteFerro} lingotes, ${m.corpoChassi} chassi, ${m.engrenagem} engrenagem, ${m.chapaFerro} chapas
 `;
     }
 
@@ -315,9 +254,7 @@ function enviarBot(texto) {
 
     fetch(url)
         .then(() => mostrarPopup("✅ Pedido enviado com sucesso!"))
-        .catch(() => mostrarPopup("✅ Pedido enviado com sucesso, logo iremos entrar em 
-
-contato!"));
+        .catch(() => mostrarPopup("✅ Pedido enviado, logo entraremos em contato!"));
 }
 
 // CHAT BOT
@@ -333,30 +270,16 @@ function sendMsg() {
 
     addMessage("Você", text);
 
-    let clean = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, 
-
-"").replace(/[.,!?;:()]/g, "");
+    let clean = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[.,!?;:()]/g, "");
 
     let resposta = "Não entendi, pode explicar melhor?";
 
-    if (clean.includes("preco")) resposta = "Nossos preços dependem do veículo 
-
-escolhido.";
-    else if (clean.includes("alugar")) resposta = "Para alugar, selecione o veículo e 
-
-finalize no carrinho.";
+    if (clean.includes("preco")) resposta = "Nossos preços dependem do veículo escolhido.";
+    else if (clean.includes("alugar")) resposta = "Para alugar, selecione o veículo e finalize no carrinho.";
     else if (clean.includes("comprar")) resposta = "Para comprar, basta ir no carrinho.";
-    else if (clean.includes("material")) resposta = "Cada player deve ter os materiais 
-
-necessários para construir o veículo.";
-    else if (clean.includes("oi") || clean.includes("ola")) resposta = "Olá! Como posso 
-
-ajudar? 😊";
-    else if (clean.includes("suport") || clean.includes("suporte")) resposta = 'Entre em 
-
-contato com o suporte: <a href="https://wa.me/+556296094975" target="_blank">💬 
-
-Suporte</a>';
+    else if (clean.includes("material")) resposta = "Cada player deve ter os materiais necessários para construir o veículo.";
+    else if (clean.includes("oi") || clean.includes("ola")) resposta = "Olá! Como posso ajudar? 😊";
+    else if (clean.includes("suport") || clean.includes("suporte")) resposta = 'Entre em contato com o suporte: <a href="https://wa.me/+556296094975" target="_blank">💬 Suporte</a>';
 
     setTimeout(() => addMessage("Bot", resposta), 500);
     input.value = "";
@@ -383,6 +306,4 @@ function addMessage(user, msg) {
 
 </body>
 </html>
-
-
 
