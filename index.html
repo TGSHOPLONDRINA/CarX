@@ -1,308 +1,130 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>carX — Venda de Veículos</title>
-<style>
-    body { font-family: Arial, sans-serif; background: #0d0d0d; color: #fff; margin: 0; }
-    header { padding: 20px; text-align: center; background: #111; font-size: 32px; font-weight: bold; color: #00c3ff; border-bottom: 2px solid #00c3ff; }
-    .slider { width: 90%; max-width: 900px; height: 220px; margin: 20px auto; overflow: hidden; border-radius: 12px; border: 2px solid #00c3ff; position: relative; }
-    .slides { display: flex; width: 300%; animation: slide 12s infinite; }
-    .slides img { width: 100%; height: 220px; object-fit: cover; }
-    @keyframes slide { 0% { margin-left: 0; } 33% { margin-left: -100%; } 66% { margin-left: -200%; } 100% { margin-left: 0; } }
-    .container { max-width: 900px; margin: auto; padding: 20px; }
-    .card { background: #1a1a1a; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #333; }
-    h2 { color: #00c3ff; margin-bottom: 10px; }
-    input, select { width: 100%; padding: 10px; margin-top: 10px; border-radius: 8px; border: none; background: #222; color: #fff; }
-    button { padding: 12px; width: 100%; background: #00c3ff; border: none; border-radius: 8px; margin-top: 15px; font-size: 16px; cursor: pointer; font-weight: bold; }
-    button:hover { background: #0099cc; }
-    .result { background: #101010; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid #00c3ff; white-space: pre-line; font-size: 16px; }
-    #chat-bubble { position: fixed; bottom: 20px; right: 20px; background: #4CAF50; color: #fff; padding: 14px 16px; border-radius: 50%; cursor: pointer; font-size: 22px; z-index: 99999; box-shadow: 0 0 10px #0005; }
-    #chat-box { position: fixed; bottom: 90px; right: 20px; width: 90%; max-width: 320px; height: 420px; background: #1a1a1a; color: #fff; border-radius: 14px; box-shadow: 0 0 12px #0007; display: none; flex-direction: column; z-index: 99999; }
-    @media (max-width: 480px) { #chat-box { bottom: 80px; right: 10px; width: calc(100% - 20px); height: 75vh; } }
-    #chat-header { background: #4CAF50; padding: 12px; text-align: center; font-weight: bold; border-radius: 14px 14px 0 0; }
-    #chat-messages { flex: 1; padding: 10px; overflow-y: auto; font-size: 14px; }
-    #chat-input { display: flex; border-top: 1px solid #333; }
-    #chat-input input { flex: 1; padding: 10px; border: none; outline: none; background: #0d0d0d; color: #fff; font-size: 15px; }
-    #chat-input button { padding: 10px; background: #4CAF50; border: none; cursor: pointer; color: #fff; font-weight: bold; width: 60px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteor LIOS | Entrega via Telegram</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #080808; color: white; scroll-behavior: smooth; overflow-x: hidden; }
+        .lios-gradient { background: linear-gradient(90deg, #ef4444, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-lios { background: linear-gradient(90deg, #ef4444, #f97316); transition: 0.3s; }
+        .btn-lios:hover { opacity: 0.9; transform: scale(1.02); }
+        .card-border { border: 1px solid rgba(239, 68, 68, 0.1); background: #0f0f0f; transition: 0.3s; }
+        .card-border:hover { border-color: #ef4444; }
+        
+        /* Notificação Flutuante */
+        #notification-toast {
+            position: fixed; bottom: 20px; left: 20px; background: #111; border: 1px solid #333;
+            padding: 12px 20px; rounded: 8px; display: none; z-index: 1000;
+            animation: slideUp 0.5s ease-out;
+        }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
 </head>
-<body>
+<body class="font-sans text-gray-200">
 
-<header>carX — Venda de Veículos</header>
-
-<div class="slider">
-    <div class="slides">
-        <img src="https://i.imgur.com/WTksDXy.jpeg">
-        <img src="https://i.imgur.com/MFETVLh.jpeg">
-        <img src="https://i.imgur.com/pVoEWX2.jpeg">
-        <img src="https://i.imgur.com/lFB7TSp.jpeg">
-        <img src="https://i.imgur.com/AzpkVXL.jpeg">
-        <img src="https://i.imgur.com/xjfas8A.jpeg">
-        <img src="https://i.imgur.com/hKxIvEI.jpeg">
-        <img src="https://i.imgur.com/zBqhdwx.jpeg">
+    <div id="notification-toast" class="rounded-xl shadow-2xl">
+        <div class="flex items-center space-x-3">
+            <div class="bg-green-500 w-2 h-2 rounded-full animate-pulse"></div>
+            <p class="text-xs font-medium" id="notif-text">Novo cliente acabou de comprar!</p>
+        </div>
     </div>
-</div>
 
-<div class="container">
+    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto sticky top-0 bg-[#080808]/95 backdrop-blur-md z-50 border-b border-white/5">
+        <h1 class="text-2xl font-black italic">METEOR<span class="text-red-600">LIOS</span></h1>
+        <div class="hidden md:flex space-x-8 text-[10px] font-bold tracking-widest">
+            <a href="#features" class="hover:text-red-500 transition">FUNÇÕES</a>
+            <a href="#produtos" class="hover:text-red-500 transition">PREÇOS</a>
+        </div>
+        <a href="https://t.me/SEU_USUARIO_TELEGRAM" target="_blank" class="bg-blue-500 px-6 py-2 rounded-md font-black text-xs uppercase flex items-center">
+            <i class="fab fa-telegram-plane mr-2 text-sm"></i> Suporte Telegram
+        </a>
+    </nav>
 
-<div class="card">
-    <h2>Informações do Cliente</h2>
-    <input type="text" id="nome" placeholder="Seu nome">
-    <input type="text" id="telefone" placeholder="Seu telefone">
-    <input type="text" id="playerID" placeholder="ID do jogo">
-    <input type="text" id="serverName" placeholder="Servidor (Ex: BR-05)">
-</div>
- 
-<div class="card">
-    <h2>Aluguel de Veículos</h2>
-    <select id="vehicle">
-        <option value="">Selecione o veículo...</option>
-        <option value="jeepdeguerra">jeep de guerra pesado — R$ 4500</option>
-        <option value="pequenalambretafesta">Pequena Lambreta Festa — R$ 7800</option>
-        <option value="pequenalambretacanto">Pequena Lambreta Canto — R$ 15000</option>
-        <option value="helicopterodeataque">Helicóptero de ataque — R$ 12000</option>
-        <option value="motoolanadorazul">Motoolanador azul — R$ 12000</option>
-        <option value="motoolanador">Motoolanador — R$ 12000</option>
-        <option value="tanquetigrebranco">tanque tigre branco — R$ 12000</option>
-    </select>
+    <header class="py-20 text-center max-w-5xl mx-auto px-4">
+        <div class="inline-flex items-center space-x-2 bg-red-600/10 text-red-500 border border-red-500/20 px-4 py-2 rounded-md text-xs font-bold mb-6">
+            <i class="fas fa-check-circle"></i>
+            <span>BYPASS ATUALIZADO 2026</span>
+        </div>
+        <h2 class="text-6xl md:text-8xl font-black mb-6 italic tracking-tighter uppercase">Painel <span class="lios-gradient">Meteor</span></h2>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            Geração de keys na hora via Telegram. Após a compra, envie seu comprovante e receba sua licença instantaneamente.
+        </p>
+    </header>
 
-    <label>Materiais que você possui:</label>
-    <input type="number" id="lingoteFerro" placeholder="Lingote de ferro tratado">
-    <input type="number" id="corpoChassi" placeholder="Corpo de helicóptero / Chassi">
-    <input type="number" id="engrenagem" placeholder="Engrenagem mecânica">
-    <input type="number" id="chapaFerro" placeholder="Chapa de ferro">
+    <section id="produtos" class="max-w-6xl mx-auto px-4 py-10">
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="card-border p-8 rounded-2xl flex flex-col items-center">
+                <span class="text-gray-500 font-bold text-[10px] uppercase mb-4 tracking-widest">Acesso 24 Horas</span>
+                <p class="text-5xl font-black mb-8">R$ 20,00</p>
+                <a href="LINK_VENDA_1" class="w-full py-4 rounded-lg btn-lios text-white font-black text-center uppercase text-xs">Comprar via PIX</a>
+            </div>
 
-    <button onclick="verificarMateriais()">Verificar materiais</button>
-    <button onclick="enviarZapVenda()">Enviar pedido</button>
+            <div class="card-border p-8 rounded-2xl flex flex-col items-center relative scale-105 bg-[#111] border-red-600/50">
+                <span class="text-red-500 font-bold text-[10px] uppercase mb-4 tracking-widest">Acesso 7 Dias</span>
+                <p class="text-5xl font-black mb-8">R$ 65,00</p>
+                <a href="LINK_VENDA_2" class="w-full py-4 rounded-lg btn-lios text-white font-black text-center uppercase text-xs shadow-lg shadow-red-600/20">Comprar via PIX</a>
+            </div>
 
-    <div id="resultadoVenda" class="result" style="display:none;"></div>
-</div>
+            <div class="card-border p-8 rounded-2xl flex flex-col items-center">
+                <span class="text-gray-500 font-bold text-[10px] uppercase mb-4 tracking-widest">Acesso 30 Dias</span>
+                <p class="text-5xl font-black mb-8">R$ 140,00</p>
+                <a href="LINK_VENDA_3" class="w-full py-4 rounded-lg btn-lios text-white font-black text-center uppercase text-xs">Comprar via PIX</a>
+            </div>
+        </div>
+    </section>
 
-<button onclick="enviarZapGeral()">📩 Enviar pedido completo</button>
+    <section class="max-w-4xl mx-auto px-4 py-20">
+        <div class="bg-blue-600/5 border border-blue-500/20 p-8 rounded-2xl">
+            <h3 class="text-xl font-bold mb-4 text-blue-400 uppercase italic">Como funciona a entrega?</h3>
+            <div class="grid md:grid-cols-3 gap-6 text-sm">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black text-white/20 mb-2">01</span>
+                    <p>Você escolhe o plano e realiza o pagamento via PIX no checkout.</p>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black text-white/20 mb-2">02</span>
+                    <p>O sistema aprova seu pagamento automaticamente em segundos.</p>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black text-white/20 mb-2">03</span>
+                    <p>Chame no Telegram com seu e-mail e geramos sua key na hora!</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<a href="https://wa.me/+556296094975" target="_blank">💬 Suporte</a>
-<p>Siga nossas redes:</p>
-<a href="https://www.instagram.com/trabalhando.no.digital?igsh=M3pkb3lrY3VnYTky" target="_blank">📸 Instagram</a>
-<a href="https://tiktok.com/@SEUTIKTOK" target="_blank">🎵 TikTok</a>
+    <a href="https://t.me/SEU_USUARIO_TELEGRAM" target="_blank" class="fixed bottom-6 right-6 bg-[#24A1DE] w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition z-[100]">
+        <i class="fab fa-telegram-plane text-3xl"></i>
+    </a>
 
-</div>
+    <footer class="py-10 text-center text-gray-700 text-[10px] tracking-widest uppercase">
+        Meteor LIOS &copy; 2026 - O Melhor Software de Sobrevivência
+    </footer>
 
-<!-- POPUP -->
-<script>
-function mostrarPopup(msg) {
-    const popup = document.createElement("div");
-    popup.style.position = "fixed";
-    popup.style.top = "50%";
-    popup.style.left = "50%";
-    popup.style.transform = "translate(-50%, -50%)";
-    popup.style.background = "#111";
-    popup.style.padding = "25px";
-    popup.style.borderRadius = "12px";
-    popup.style.boxShadow = "0 0 25px rgba(0,0,0,0.5)";
-    popup.style.zIndex = "999999";
-    popup.style.color = "white";
-    popup.style.fontSize = "18px";
-    popup.style.textAlign = "center";
-    popup.innerHTML = `<strong>${msg}</strong>`;
-    document.body.appendChild(popup);
-    setTimeout(() => popup.remove(), 3000);
-}
-</script>
+    <script>
+        // Sistema de Notificações Falsas (Prova Social)
+        const nomes = ['Marcos', 'Felipe', 'Joao', 'Gabriel', 'Lucas', 'Carlos', 'Rafa'];
+        const planos = ['Diário', 'Semanal', 'Mensal'];
+        
+        function showNotification() {
+            const toast = document.getElementById('notification-toast');
+            const text = document.getElementById('notif-text');
+            const nome = nomes[Math.floor(Math.random() * nomes.length)];
+            const plano = planos[Math.floor(Math.random() * planos.length)];
+            
+            text.innerText = `${nome} comprou o Plano ${plano} agora!`;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 4000);
+        }
 
-<script>
-// ===== OBJETOS MATERIAIS E PREÇOS =====
-const materiais = {
-    jeepdeguerra: { lingoteFerro: 100, corpoChassi: 50, engrenagem: 20, chapaFerro: 0 },
-    pequenalambretafesta: { lingoteFerro: 150, corpoChassi: 70, engrenagem: 30, chapaFerro: 0 },
-    pequenalambretacanto: { lingoteFerro: 300, corpoChassi: 200, engrenagem: 80, chapaFerro: 0 },
-    helicopterodeataque: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 40 },
-    motoolanadorazul: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 40 },
-    motoolanador: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 40 },
-    tanquetigrebranco: { lingoteFerro: 200, corpoChassi: 1, engrenagem: 40, chapaFerro: 40 } // <== corrigido
-};
-
-const precoVenda = {
-    jeepdeguerra: 4500,
-    pequenalambretafesta: 7800,
-    pequenalambretacanto: 15000,
-    helicopterodeataque: 12000,
-    motoolanadorazul: 12000,
-    motoolanador: 12000,
-    tanquetigrebranco: 12000,
-};
-
-const BOT_PHONE = "556296094975";
-const BOT_KEY = "2198964";
-
-// ===== FUNÇÕES =====
-function gerarIDProduto() { 
-    return "PROD-" + Math.floor(100000 + Math.random() * 900000); 
-}
-
-function verificarMateriais() {
-    const v = document.getElementById("vehicle").value;
-    if (!v) { mostrarPopup("❌ Selecione um veículo!"); return; }
-
-    const req = materiais[v];
-    const user = {
-        lingoteFerro: Number(document.getElementById("lingoteFerro").value || 0),
-        corpoChassi: Number(document.getElementById("corpoChassi").value || 0),
-        engrenagem: Number(document.getElementById("engrenagem").value || 0),
-        chapaFerro: Number(document.getElementById("chapaFerro").value || 0)
-    };
-
-    let faltas = [];
-    for (let m in req) { if (user[m] < req[m]) faltas.push(`${m}: ${req[m]-user[m]} faltando`); }
-
-    const box = document.getElementById("resultadoVenda");
-    box.style.display = "block";
-    box.innerText = `
-📦 Materiais para ${v.toUpperCase()}
-
-Necessário:
-Lingote: ${req.lingoteFerro}
-Chassi: ${req.corpoChassi}
-Engrenagem: ${req.engrenagem}
-Chapa: ${req.chapaFerro}
-
-Você possui:
-Lingote: ${user.lingoteFerro}
-Chassi: ${user.corpoChassi}
-Engrenagem: ${user.engrenagem}
-Chapa: ${user.chapaFerro}
-
-` + (faltas.length === 0 ? "✅ Você tem todos os materiais!" : "❌ Faltando:\n" + faltas.join("\n"));
-
-    if (faltas.length === 0) mostrarPopup("✅ Todos os materiais conferidos!");
-    else mostrarPopup("❌ Faltam materiais!");
-}
-
-function enviarZapVenda() {
-    const nome = document.getElementById("nome").value.trim();
-    const tel = document.getElementById("telefone").value.trim();
-    const pid = document.getElementById("playerID").value.trim();
-    const serv = document.getElementById("serverName").value.trim();
-    const v = document.getElementById("vehicle").value;
-
-    if (!nome || !tel || !pid || !serv || !v) { mostrarPopup("❌ Preencha todos os campos!"); return; }
-
-    const m = materiais[v];
-    const idProduto = gerarIDProduto();
-    const msg = `
-NOVA VENDA — carX
-
-🆔 ID do Produto: ${idProduto}
-
-👤 Nome: ${nome}
-📞 Telefone: ${tel}
-🎮 ID do Player: ${pid}
-🌍 Servidor: ${serv}
-
-🚗 Veículo: ${v.toUpperCase()}
-💰 Preço: R$ ${precoVenda[v].toLocaleString()}
-
-📦 Materiais necessários:
-• Lingotes: ${m.lingoteFerro}
-• Chassi: ${m.corpoChassi}
-• Engrenagem: ${m.engrenagem}
-• Chapas: ${m.chapaFerro}
-
-🕒 ${new Date().toLocaleString()}
-`;
-    enviarBot(msg);
-}
-
-function enviarZapGeral() {
-    const nome = document.getElementById("nome").value.trim();
-    const tel = document.getElementById("telefone").value.trim();
-    const pid = document.getElementById("playerID").value.trim();
-    const serv = document.getElementById("serverName").value.trim();
-
-    if (!nome || !tel || !pid || !serv) { mostrarPopup("❌ Preencha todos os campos!"); return; }
-
-    let msg = `
-PEDIDO COMPLETO — carX
-
-🆔 ID do Pedido: ${gerarIDProduto()}
-
-👤 Nome: ${nome}
-📞 Telefone: ${tel}
-🎮 Player ID: ${pid}
-🌍 Servidor: ${serv}
-`;
-
-    const v = document.getElementById("vehicle").value;
-    if (v) {
-        const m = materiais[v];
-        msg += `
---- VENDA ---
-Veículo: ${v.toUpperCase()}
-Preço: R$ ${precoVenda[v].toLocaleString()}
-Materiais: ${m.lingoteFerro} lingotes, ${m.corpoChassi} chassi, ${m.engrenagem} engrenagem, ${m.chapaFerro} chapas
-`;
-    }
-
-    msg += `\n🕒 ${new Date().toLocaleString()}`;
-    enviarBot(msg);
-}
-
-function enviarBot(texto) {
-    const url = "https://api.callmebot.com/whatsapp.php?phone=" + BOT_PHONE +
-        "&text=" + encodeURIComponent(texto) + "&apikey=" + BOT_KEY;
-
-    fetch(url)
-        .then(() => mostrarPopup("✅ Pedido enviado com sucesso!"))
-        .catch(() => mostrarPopup("✅ Pedido enviado, logo entraremos em contato!"));
-}
-
-// CHAT BOT
-function toggleChat() {
-    const box = document.getElementById("chat-box");
-    box.style.display = box.style.display === "flex" ? "none" : "flex";
-}
-
-function sendMsg() {
-    const input = document.getElementById("chatText");
-    const text = input.value.trim();
-    if (!text) return;
-
-    addMessage("Você", text);
-
-    let clean = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[.,!?;:()]/g, "");
-
-    let resposta = "Não entendi, pode explicar melhor?";
-
-    if (clean.includes("preco")) resposta = "Nossos preços dependem do veículo escolhido.";
-    else if (clean.includes("alugar")) resposta = "Para alugar, selecione o veículo e finalize no carrinho.";
-    else if (clean.includes("comprar")) resposta = "Para comprar, basta ir no carrinho.";
-    else if (clean.includes("material")) resposta = "Cada player deve ter os materiais necessários para construir o veículo.";
-    else if (clean.includes("oi") || clean.includes("ola")) resposta = "Olá! Como posso ajudar? 😊";
-    else if (clean.includes("suport") || clean.includes("suporte")) resposta = 'Entre em contato com o suporte: <a href="https://wa.me/+556296094975" target="_blank">💬 Suporte</a>';
-
-    setTimeout(() => addMessage("Bot", resposta), 500);
-    input.value = "";
-}
-
-function addMessage(user, msg) {
-    const box = document.getElementById("chat-messages");
-    const div = document.createElement("div");
-    div.innerHTML = `<b>${user}:</b> ${msg}`;
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
-}
-</script>
-
-<div id="chat-bubble" onclick="toggleChat()">💬</div>
-<div id="chat-box">
-    <div id="chat-header">Atendimento</div>
-    <div id="chat-messages"></div>
-    <div id="chat-input">
-        <input type="text" id="chatText" placeholder="Digite sua mensagem...">
-        <button onclick="sendMsg()">➤</button>
-    </div>
-</div>
+        setInterval(showNotification, 12000); // Aparece a cada 12 segundos
+    </script>
 
 </body>
 </html>
